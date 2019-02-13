@@ -17,8 +17,7 @@
 		Version 1		
 			20 msec is done by using a (blocking)  delay-function 
 
-	prototype  0.0001.
-	
+		
 		
 		
  *
@@ -32,6 +31,16 @@
 #define BUTTON_PRESSED (0 == (PIND & (1<<PORTD2)))
 #define LED_ON  PORTD |= 1<<PORTD1
 #define LED_OFF  PORTD &= ~(1<<PORTD1)
+#define FLASHOFF 0
+#define FLASHON 1
+#define FLASHDIM 2
+#define FLASHBLINK 3
+
+
+
+
+unsigned char FlashLightState = FLASHBLINK;
+unsigned char CurrentButtonState=0,PreviousButtonState=0;
 
 
 
@@ -46,13 +55,28 @@ int main(void)
 	
     while (1) 
     {
-		if(BUTTON_PRESSED)
+		PreviousButtonState = CurrentButtonState;
+		CurrentButtonState = BUTTON_PRESSED;
+
+		if((PreviousButtonState==0) && (CurrentButtonState!=0))
+		{  //Change flashlight state
+			if(FlashLightState==FLASHOFF)
+			{
+				 FlashLightState = FLASHBLINK;
+			}
+		else
+			{
+				FlashLightState = FLASHOFF;					
+			}	
+		}
+		
+		if(FlashLightState==FLASHBLINK)		
 		{
 			_delay_ms(100);
 			LED_ON;
-			_delay_ms(100);
-			LED_OFF;	
 		}
+		_delay_ms(100);
+		LED_OFF;	
 	}
 }
 
