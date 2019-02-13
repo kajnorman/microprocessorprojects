@@ -13,7 +13,7 @@
 		Trig made by the button will only occur 
 			if (the "previous" buttonstate was not pressed and the current state is pressed)
 		half-power will be simulated with a 25Hz 50% Duty cycle
-		Blinking will be done with a frequency of 4 Hz (120 ms on  120 ms off)
+		Blinking will be done with a frequency of 4 Hz (120 ms on  120 ms off) 
 		Version 1		
 			20 msec is done by using a (blocking)  delay-function 
 
@@ -31,17 +31,19 @@
 #define BUTTON_PRESSED (0 == (PIND & (1<<PORTD2)))
 #define LED_ON  PORTD |= 1<<PORTD1
 #define LED_OFF  PORTD &= ~(1<<PORTD1)
+#define LED_TOGGLE  PIND |= (1<<PIND1)
 #define FLASHOFF 0
-#define FLASHON 1
-#define FLASHDIM 2
-#define FLASHBLINK 3
+#define FLASHONFULL 1
+#define FLASHONHALF 2
+#define FLASHSLOWBLINK 3
+#define FLASHFASTBLINK 4
 
 
 
 
-unsigned char FlashLightState = FLASHBLINK;
+unsigned char FlashLightState = FLASHFASTBLINK;
 unsigned char CurrentButtonState=0,PreviousButtonState=0;
-
+unsigned char delaycounter = 0;
 
 
 
@@ -55,28 +57,79 @@ int main(void)
 	
     while (1) 
     {
+	    	///////////////Handle the Button activation (going from not pressed to being pressed
 		PreviousButtonState = CurrentButtonState;
 		CurrentButtonState = BUTTON_PRESSED;
 
-		if((PreviousButtonState==0) && (CurrentButtonState!=0))
-		{  //Change flashlight state
+		if((PreviousButtonState==0) && (CurrentButtonState!=0))  
+		{  //////////Change flashlight state based on the previous state
 			if(FlashLightState==FLASHOFF)
-			{
-				 FlashLightState = FLASHBLINK;
-			}
-		else
-			{
-				FlashLightState = FLASHOFF;					
-			}	
+				{
+					 FlashLightState = FLASHONFULL;
+				}
+			else
+				if(FlashLightState==FLASHONFULL)
+						{
+							FlashLightState = FLASHONHALF;
+						}
+					else
+						if(FlashLightState==FLASHONHALF)
+							{
+								FlashLightState = FLASHSLOWBLINK;
+							}
+						else
+							if(FlashLightState==FLASHSLOWBLINK)
+								{
+									FlashLightState = FLASHFASTBLINK;
+								}
+							else
+								if(FlashLightState==FLASHFASTBLINK)
+									{
+										FlashLightState = FLASHOFF;
+									}
 		}
 		
-		if(FlashLightState==FLASHBLINK)		
+	    
+	    
+	    
+	    
+	    
+	    ////////////////Handling the output based on the state.
+		if(FlashLightState==FLASHONFULL)
 		{
-			_delay_ms(100);
 			LED_ON;
 		}
-		_delay_ms(100);
-		LED_OFF;	
+
+		if(FlashLightState==FLASHONHALF)
+		{
+			LED_TOGGLE;
+		}
+
+		if(FlashLightState==FLASHOFF)
+		{
+			LED_OFF;
+		}
+
+		if(FlashLightState==FLASHSLOWBLINK)
+		{
+			if (delaycounter >= 20)
+			{
+				LED_TOGGLE;
+				delaycounter=0;
+			}
+		}
+
+		if(FlashLightState==FLASHFASTBLINK)
+		{
+			if (delaycounter >= 3)
+			{
+				LED_TOGGLE;
+				delaycounter=0;
+			}
+		}
+
+		_delay_ms(20);
+		delaycounter++;
 	}
 }
 
