@@ -1,0 +1,217 @@
+
+OO solution1.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .data         00000000  00800100  00800100  00000186  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  1 .text         00000132  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .comment      00000030  00000000  00000000  00000186  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000001b8  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000058  00000000  00000000  000001f4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   00000a09  00000000  00000000  0000024c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 00000809  00000000  00000000  00000c55  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   00000240  00000000  00000000  0000145e  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000088  00000000  00000000  000016a0  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    0000045c  00000000  00000000  00001728  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    000000ff  00000000  00000000  00001b84  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000038  00000000  00000000  00001c83  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 34 00 	jmp	0x68	; 0x68 <__ctors_end>
+   4:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+   8:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+   c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  10:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  14:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  18:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  1c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  20:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  24:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  28:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  2c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  30:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  34:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  38:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  3c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  40:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  44:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  48:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  4c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  50:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  54:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  58:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  5c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  60:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  64:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+
+00000068 <__ctors_end>:
+  68:	11 24       	eor	r1, r1
+  6a:	1f be       	out	0x3f, r1	; 63
+  6c:	cf ef       	ldi	r28, 0xFF	; 255
+  6e:	d8 e0       	ldi	r29, 0x08	; 8
+  70:	de bf       	out	0x3e, r29	; 62
+  72:	cd bf       	out	0x3d, r28	; 61
+  74:	0e 94 7e 00 	call	0xfc	; 0xfc <main>
+  78:	0c 94 97 00 	jmp	0x12e	; 0x12e <_exit>
+
+0000007c <__bad_interrupt>:
+  7c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000080 <_ZN10LEDonPORTBC1Eh>:
+#include <avr/io.h>
+#include "IOlib.h"
+
+LEDonPORTB::LEDonPORTB(unsigned char n)  //constructor takes portb-bit nr as input
+{
+	DDRB |= (1<<n);
+  80:	44 b1       	in	r20, 0x04	; 4
+  82:	21 e0       	ldi	r18, 0x01	; 1
+  84:	30 e0       	ldi	r19, 0x00	; 0
+  86:	06 2e       	mov	r0, r22
+  88:	02 c0       	rjmp	.+4      	; 0x8e <_ZN10LEDonPORTBC1Eh+0xe>
+  8a:	22 0f       	add	r18, r18
+  8c:	33 1f       	adc	r19, r19
+  8e:	0a 94       	dec	r0
+  90:	e2 f7       	brpl	.-8      	; 0x8a <_ZN10LEDonPORTBC1Eh+0xa>
+  92:	24 2b       	or	r18, r20
+  94:	24 b9       	out	0x04, r18	; 4
+	portnumber = n;
+  96:	fc 01       	movw	r30, r24
+  98:	60 83       	st	Z, r22
+  9a:	08 95       	ret
+
+0000009c <_ZN10LEDonPORTB8activateEb>:
+}
+
+void LEDonPORTB::activate(bool flag)  // sets the output value on pin to hi if flag is true
+{
+	PORTB |= (1<<portnumber); // PORTB.n set high
+  9c:	45 b1       	in	r20, 0x05	; 5
+  9e:	21 e0       	ldi	r18, 0x01	; 1
+  a0:	30 e0       	ldi	r19, 0x00	; 0
+  a2:	b9 01       	movw	r22, r18
+  a4:	fc 01       	movw	r30, r24
+  a6:	00 80       	ld	r0, Z
+  a8:	02 c0       	rjmp	.+4      	; 0xae <_ZN10LEDonPORTB8activateEb+0x12>
+  aa:	66 0f       	add	r22, r22
+  ac:	77 1f       	adc	r23, r23
+  ae:	0a 94       	dec	r0
+  b0:	e2 f7       	brpl	.-8      	; 0xaa <_ZN10LEDonPORTB8activateEb+0xe>
+  b2:	cb 01       	movw	r24, r22
+  b4:	84 2b       	or	r24, r20
+  b6:	85 b9       	out	0x05, r24	; 5
+  b8:	08 95       	ret
+
+000000ba <_ZN10BUTonPORTBC1Eh>:
+}
+
+BUTonPORTB::BUTonPORTB(unsigned char n)  //sets PORTB.n to be an input Buuton connected to ground
+  ba:	fc 01       	movw	r30, r24
+{
+	DDRB &= ~(1<<n);  //input
+  bc:	94 b1       	in	r25, 0x04	; 4
+  be:	21 e0       	ldi	r18, 0x01	; 1
+  c0:	30 e0       	ldi	r19, 0x00	; 0
+  c2:	06 2e       	mov	r0, r22
+  c4:	02 c0       	rjmp	.+4      	; 0xca <_ZN10BUTonPORTBC1Eh+0x10>
+  c6:	22 0f       	add	r18, r18
+  c8:	33 1f       	adc	r19, r19
+  ca:	0a 94       	dec	r0
+  cc:	e2 f7       	brpl	.-8      	; 0xc6 <_ZN10BUTonPORTBC1Eh+0xc>
+  ce:	82 2f       	mov	r24, r18
+  d0:	80 95       	com	r24
+  d2:	98 23       	and	r25, r24
+  d4:	94 b9       	out	0x04, r25	; 4
+	PORTD |= (1<<n);  //pull up
+  d6:	8b b1       	in	r24, 0x0b	; 11
+  d8:	28 2b       	or	r18, r24
+  da:	2b b9       	out	0x0b, r18	; 11
+	portnumber = n;   //save the number
+  dc:	60 83       	st	Z, r22
+  de:	08 95       	ret
+
+000000e0 <_ZN10BUTonPORTB7pressedEv>:
+}
+
+bool BUTonPORTB::pressed()  //  gets the immediate status of Button n....true for being pressed
+{
+  e0:	fc 01       	movw	r30, r24
+	if (0 == (PINB & (1<<portnumber)))
+  e2:	93 b1       	in	r25, 0x03	; 3
+  e4:	89 2f       	mov	r24, r25
+  e6:	90 e0       	ldi	r25, 0x00	; 0
+  e8:	00 80       	ld	r0, Z
+  ea:	02 c0       	rjmp	.+4      	; 0xf0 <_ZN10BUTonPORTB7pressedEv+0x10>
+  ec:	95 95       	asr	r25
+  ee:	87 95       	ror	r24
+  f0:	0a 94       	dec	r0
+  f2:	e2 f7       	brpl	.-8      	; 0xec <_ZN10BUTonPORTB7pressedEv+0xc>
+  f4:	21 e0       	ldi	r18, 0x01	; 1
+  f6:	82 27       	eor	r24, r18
+	}
+	else
+	{
+		return false;
+	}
+}
+  f8:	81 70       	andi	r24, 0x01	; 1
+  fa:	08 95       	ret
+
+000000fc <main>:
+#include <avr/io.h>
+#include "IOlib.h"
+
+		
+int main(void)
+{
+  fc:	cf 93       	push	r28
+  fe:	df 93       	push	r29
+ 100:	00 d0       	rcall	.+0      	; 0x102 <main+0x6>
+ 102:	cd b7       	in	r28, 0x3d	; 61
+ 104:	de b7       	in	r29, 0x3e	; 62
+			
+	BUTonPORTB button = BUTonPORTB(0);  //sets PORTB.0 to be an input Buuton connected to ground
+ 106:	60 e0       	ldi	r22, 0x00	; 0
+ 108:	ce 01       	movw	r24, r28
+ 10a:	01 96       	adiw	r24, 0x01	; 1
+ 10c:	0e 94 5d 00 	call	0xba	; 0xba <_ZN10BUTonPORTBC1Eh>
+	LEDonPORTB redled = LEDonPORTB(1);  //sets PORTB.1 to be an output
+ 110:	61 e0       	ldi	r22, 0x01	; 1
+ 112:	ce 01       	movw	r24, r28
+ 114:	02 96       	adiw	r24, 0x02	; 2
+ 116:	0e 94 40 00 	call	0x80	; 0x80 <_ZN10LEDonPORTBC1Eh>
+
+
+	while(1)
+	{
+		bool flag;  //The LED will light while the button is being pressed
+		flag = button.pressed();
+ 11a:	ce 01       	movw	r24, r28
+ 11c:	01 96       	adiw	r24, 0x01	; 1
+ 11e:	0e 94 70 00 	call	0xe0	; 0xe0 <_ZN10BUTonPORTB7pressedEv>
+		redled.activate(flag);
+ 122:	68 2f       	mov	r22, r24
+ 124:	ce 01       	movw	r24, r28
+ 126:	02 96       	adiw	r24, 0x02	; 2
+ 128:	0e 94 4e 00 	call	0x9c	; 0x9c <_ZN10LEDonPORTB8activateEb>
+ 12c:	f6 cf       	rjmp	.-20     	; 0x11a <main+0x1e>
+
+0000012e <_exit>:
+ 12e:	f8 94       	cli
+
+00000130 <__stop_program>:
+ 130:	ff cf       	rjmp	.-2      	; 0x130 <__stop_program>
