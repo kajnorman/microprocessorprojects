@@ -17,26 +17,7 @@
 							I get a '1' on the when requesting through the library
 				LED for input 
 					set up as output
-
-
-Example :
-		#include  "iolib.h"
-		
-		setupLEDonPORTB(0);  //sets PORTB.0 to be an output 
-		setupBUTonPORTB(1);  //sets PORTB.1 to be an input Buuton connected to ground
-		
-		int main(void)
-		{
-			while(1)
-			{
-				bool flag;  //The LED will light while the button is being pressed
-				flag = getBUT(1);
-				setLED(0,flag);
-			}
-		}
-		
-					
- 
+		 
  * Author : knn
  */ 
 
