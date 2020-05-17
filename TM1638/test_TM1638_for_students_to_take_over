@@ -1,0 +1,183 @@
+/*
+ * LEDnKEY.cpp
+ *
+ * Created: 14-10-2019 23:07:27
+ * Author : knn
+ 
+ 
+ 
+ Test program not in a finished state
+ 
+ Problematic issues are 
+	1)   Reading of keystrokes are done through a global variable.
+	2
+
+
+
+ */ 
+
+
+#include <avr/io.h>
+
+
+
+// PORTB
+#define STB  0
+#define STBLO  (PORTB &= ~(1<<0))
+#define STBHI  (PORTB |= (1<<0))
+#define CLK	 1
+#define CLKLO  (PORTB &= ~(1<<1))
+#define CLKHI  (PORTB |= (1<<1))
+#define DIO	 2
+#define DIOLO  (PORTB &= ~(1<<2))
+#define DIOHI  (PORTB |= (1<<2))
+
+#define F_CPU 16000000UL
+#include <util/delay.h>
+
+
+
+void ShiftOut8bit(char Data)
+{
+char mask = 0b00000001;	
+for (char n=0;n<8;n++)
+	{
+		CLKLO;
+		if (mask & Data)
+			DIOHI; 
+		else
+			DIOLO;
+		CLKHI;
+		mask <<= 1;
+	}	
+
+}
+
+
+void setLED(char Number,char status)
+{
+		STBLO;                       //   Set    Data Command    (incr addr  mode)
+		ShiftOut8bit(0b01000000);
+		STBHI;
+		
+		STBLO;        //  addr  = (LedNumber * 2)-1     and  bitwise or to 0b11000000
+		ShiftOut8bit(0b11000000  | ((Number*2)-1));  
+		if (status)
+			ShiftOut8bit(0b11111111);      //Data
+		else
+			ShiftOut8bit(0b00000000);      //Data
+		STBHI;
+	
+}
+
+
+
+volatile char data[4];// for testing only.. It is not a good idea to use a global variable like that 
+
+ void readKeys(void)
+ {
+ 	STBLO;
+ 	//   Readkey scan data
+ 	ShiftOut8bit(0b01000010);
+ 	//shift DDR to input on DIO
+ 	DDRB &= ~(1 << DIO);
+	CLKLO;
+	CLKHI;
+ 	_delay_us(10);  //2 micro should be enough
+// 	volatile char data[4];
+ 	for (char m =0;m<=3;m++ )
+ 	{
+ 		data[m] = 0;
+ 		for (char n=0;n<8;n++)
+ 		{
+ 			CLKLO;
+ 			if (PINB & (1 << DIO)) data[m] |= (1 << n);
+ 			CLKHI;
+ 		}
+ 	}
+ 	//shift DDR back to output on DIO
+ 	DDRB |= (1 << DIO);
+
+ 	STBHI;
+
+ }
+
+
+
+int main(void)
+{
+	DDRB = 0x07;  //STB, CLK, DIO  is outputs
+	//Section 5.4 of the datasheet
+	//Setting a display controll command  B7=1 B6=0
+	//  B5=0 B4=0  
+	//  B3=1  =>(Display On)
+	// B2,1,0 = 111  Full pulsewidth on display
+	//Page 9 Transmission format of serial data
+	PORTB = 0x07;  //STB, CLK, DIO  are all set to '1'
+	
+	STBLO;                               //Set display Controll  Full power
+
+	ShiftOut8bit(0b10001111);
+	STBHI;
+	
+	
+	STBLO;                       //   Set    Data Command    (incr addr  mode)
+	ShiftOut8bit(0b01000000);
+	STBHI;
+	
+	STBLO;        //  addr command   start at address 00
+	ShiftOut8bit(0b11000000);
+
+	ShiftOut8bit(0b00111111);      //0        //Data
+	ShiftOut8bit(0b00000001); //LED1 is ON
+	ShiftOut8bit(0b00000110); //1
+	ShiftOut8bit(0b00000000); //LED2 is OFF
+	ShiftOut8bit(0b01011011); //2
+	ShiftOut8bit(0b00000001); //LED3 is ON
+	ShiftOut8bit(0b01001111); //3
+	ShiftOut8bit(0b00000000); //
+	ShiftOut8bit(0b01100110); //4
+	ShiftOut8bit(0b00000001);
+	ShiftOut8bit(0b01101101); //5
+	ShiftOut8bit(0b00000000);
+	ShiftOut8bit(0b01111101); //6
+	ShiftOut8bit(0b00000001);
+	ShiftOut8bit(0b00000111); //7
+	ShiftOut8bit(0b00000001);
+	STBHI;
+	_delay_ms(2000);
+	
+	
+	
+	
+    /* Replace with your application code */
+    for (char m = 1;m<3 ;m++ ) 
+    {
+		for (char n = 1;n<9 ;n++ )
+		{
+		setLED(n,1);
+		_delay_ms(200);
+		setLED(n,0);
+		_delay_ms(200);			
+		}
+    }
+	while (1)
+	{
+		readKeys();
+		if (data[0] == 0x01) setLED(1,1); else setLED(1,0);
+		if (data[0] == 0x10) setLED(5,1); else setLED(5,0);
+		if (data[1] == 0x01) setLED(2,1); else setLED(2,0);
+		if (data[1] == 0x10) setLED(6,1); else setLED(6,0);
+		if (data[2] == 0x01) setLED(3,1); else setLED(3,0);
+		if (data[2] == 0x10) setLED(7,1); else setLED(7,0);
+		if (data[3] == 0x01) setLED(4,1); else setLED(4,0);
+		if (data[3] == 0x10) setLED(8,1); else setLED(8,0);
+
+	}
+	
+}
+
+
+
+
+
