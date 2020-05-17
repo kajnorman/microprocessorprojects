@@ -10,9 +10,15 @@
  
  Problematic issues are 
 	1)   Reading of keystrokes are done through a global variable.
-	2
-
-
+	2)   main and library functions should be in eparate files  
+	3)   a header-file should be made
+    4)   Object oriented design should be implemented
+    5)   Functions are missing  ex:
+			setbrightnes()
+			clear_display_memory()
+			readkey(nr);     //nr is the number of the key
+			WriteDigit(digitnr,Value);
+			and many more
 
  */ 
 
