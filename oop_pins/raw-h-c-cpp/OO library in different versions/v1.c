@@ -40,6 +40,7 @@ Example :
  */ 
 
 #include <avr/io.h>
+#include <stdbool.h>
 
 class LEDonPORTB
 {
