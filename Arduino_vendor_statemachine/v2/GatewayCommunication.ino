@@ -49,8 +49,8 @@ void  GatewaycommunicatingStatemachine(void)
                   }
               break;
      case awaitvalue:
-              Serial.println("Value acceptrd\n");
-              Serial.println(x);
+              Serial.println("Value acceptrd\n");   //debug
+              Serial.println(x);   //debug
               Value = x;
               ComState = awaitend;   ////
               break; 
@@ -68,14 +68,14 @@ void  GatewaycommunicatingStatemachine(void)
 
 void ProcesPacket(void)
 {
-              Serial.println("Processing packet \nCommand :");
-              Serial.println(Command);
+              Serial.println("Processing packet \nCommand :");   //debug
+              Serial.println(Command);                           //debug
 
 
 if (Command == 'R')
     {
-              Serial.println("Reading Value \n");
-              Serial.println(Value);
+              Serial.println("Reading Value \n");               //debug
+              Serial.println(Value);                            //debug
       switch (Parameter){
         case 'N' : 
            Serial.write(Nickels);
@@ -90,8 +90,8 @@ if (Command == 'R')
     } 
 if (Command == 'W')
     {
-              Serial.println("Writing Value \n");
-              Serial.println(Value);
+              Serial.println("Writing Value \n");          //debug
+              Serial.println(Value);                       //debug
 
       
       switch (Parameter){
