@@ -45,7 +45,7 @@ while option != 0:
         ser.write(x)
         readresponse()
         pass
-    if option== 'W'':
+    if option== 'W':
         print("Not implemented ")
         pass
     menu()
