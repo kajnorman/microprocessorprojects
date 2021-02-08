@@ -9,7 +9,7 @@ def readresponse():
         print(b[0])
 
 
-
+##########  REMEMBER TO ADJUST COMPORT NUMBER
 
 #setup serial connection
 #ser = serial.Serial('/dev/ttyACM0',115200,timeout=0.5)  # open serial port
