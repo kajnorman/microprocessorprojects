@@ -4,12 +4,15 @@ import serial
 def readresponse():
         b = bytearray(b"                                                                    ");
         ser.readinto(b) #when the serial connection is initialized the usb-power is "flicked"
-#        print(b[0])  for full array
-        print ("Value read was  :  ")
-        print(b[0])
+        print(b)  #for full array
 
 
-##########  REMEMBER TO ADJUST COMPORT NUMBER
+def readnumber():
+    b = bytearray(b"                                                                    ");
+    ser.readinto(b)  # when the serial connection is initialized the usb-power is "flicked"
+    print("Value read was  :  ")
+    print(b[0])
+
 
 #setup serial connection
 #ser = serial.Serial('/dev/ttyACM0',115200,timeout=0.5)  # open serial port
@@ -34,7 +37,7 @@ def whatelement():
 menu()
 option = (input("Enter your command : "))
 
-while option != 0:
+while option != '0':
     if option== 'R':
         whatelement()
         element = (input("What element will you read : "))
@@ -43,10 +46,18 @@ while option != 0:
         x += bytes(element,'ascii')
         x += bytes('\r','ascii')
         ser.write(x)
-        readresponse()
-        pass
+        readnumber()
     if option== 'W':
-        print("Not implemented ")
-        pass
+        whatelement()
+        element = (input("What element will you write : "))
+        number = int(input("How many elements are in the machine now : "))
+        x = bytearray(":","ascii")
+        x += bytes('W','ascii')
+        x += bytes(element,'ascii')
+        x += bytes(chr(number),'ascii')
+        x += bytes('\r','ascii')
+        ser.write(x)
+        print("sent package  ")
+        print(x)
     menu()
     option = (input("Enter your command : "))
