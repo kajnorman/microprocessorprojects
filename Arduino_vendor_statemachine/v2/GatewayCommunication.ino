@@ -1,3 +1,39 @@
+/*
+packet:
+  +---+-------+---------+-----+----+
+  |':'|command|parameter|value|’\r’|
+  +---+-------+---------+-----+----+
+  
+  Start of packet :  ‘:’  0x3A ( colon (8 bits))
+  End of packet :  ‘\r’  0x0D  (carriage return (8 bits))
+  
+  commands:
+  ‘@’: 0x40 Ping  (is sent with no parameter and no value (8 bits))  
+Is answered with ‘@’ : 0x40 (8 bits)
+  ‘R’: 0x52  Read parameter  ( is sent with no value (8 bits))     
+          Is answered with one byte 0xNN a number in the range 0-255 (8 bits))  
+  ‘W’: 0x57  Write parameter
+
+  Parameter: the “name” for the value to be set
+  ‘N’ : number of nickels(8 bits)
+  ‘D’ : number of dimes (8 bits)
+  ‘I’ : number of items (8 bits)
+
+  Value: the number of elements (N, D or I) to set for a certain parameter
+  0xNN : number of elements, a number in the range from 0-255 (8 bits)
+
+  Notes: 
+      •  Using the UART-format 8 bits are sent at a time. 
+      • One startbit is used
+      • The baudrate is 9600
+      • No parity is used
+      • A Slave/Master principle is used.
+      o The Gateway is the master
+      o The Vendor state machine is the slave
+*/
+
+
+
 
 #define stdby  0
 #define processing 10
