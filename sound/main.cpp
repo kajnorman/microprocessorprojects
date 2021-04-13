@@ -6,6 +6,7 @@
  output using the 8-Bit Fast PWM mode. timer1 (a waste of bits)
   * Created: 13-03-2019 15:29:20
   *  Author: knn
+  *  sound output is at PB1  (pin 15 on DIP-device). 
  */
 #include <avr/io.h>
 #define F_CPU 8000000
