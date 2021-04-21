@@ -1,8 +1,5 @@
 // Get ESP8266 going with Arduino IDE
-// - https://github.com/esp8266/Arduino#installing-with-boards-manager
-// Required libraries (sketch -> include library -> manage libraries)
-// - PubSubClient by Nick ‘O Leary
-// - DHT sensor library by Adafruit
+// send gps position over mqtt
 #include <TinyGPS++.h> // library for GPS module
 #include <SoftwareSerial.h>
 #include <ESP8266WiFi.h>
@@ -15,13 +12,8 @@
 #define mqtt_user "your_username"
 #define mqtt_password "your_password"
 
-#define humidity_topic "eaaa/sensor/humidity/"
-#define temperature_topic "eaaa/sensor/temperature/"
-
-#define analogIn A0
 
 long lastMsg = 0;
-
 WiFiClient espClient;
 PubSubClient client(espClient);
 TinyGPSPlus gps;  // The TinyGPS++ object
