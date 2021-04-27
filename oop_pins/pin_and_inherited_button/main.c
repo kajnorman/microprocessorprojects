@@ -21,12 +21,18 @@ int main(void)
 
 	startbutton.Wait_for_Press();  //blocking untill pressed
 	statusled.digitalWrite(true);
+	startbutton.Wait_for_Release();  //blocking untill pressed
+	statusled.digitalWrite(false);
 
 	while(1)
 	{
 		if (togglebutton.Pressed_since_last())
 		{
 			redled.digitalWrite(! redled.digitalRead());
+		}
+		if (startbutton.Pressed_since_last())
+		{
+			statusled.digitalWrite(! statusled.digitalRead());
 		}
 		_delay_ms(10);
 	}
