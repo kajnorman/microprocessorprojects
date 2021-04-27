@@ -21,8 +21,8 @@ int main(void)
 
 	startbutton.Wait_for_Press();  //blocking untill pressed
 	statusled.digitalWrite(true);
-	startbutton.Wait_for_Release();  //blocking untill pressed
-	statusled.digitalWrite(false);
+	//startbutton.Wait_for_Release();  //EXERCISE..   IMPLEMENT  :  --->Wait_for_Release()  <---  blocking untill pressed
+	//statusled.digitalWrite(false);
 
 	while(1)
 	{
