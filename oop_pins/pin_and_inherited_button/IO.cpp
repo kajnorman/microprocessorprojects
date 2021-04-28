@@ -30,7 +30,7 @@ PORTPin::PORTPin(PortnameType p, char pinr,bool direction)  //constructor takes 
 		DDR = &DDRD;
 	}
 	
-	if(direction) *DDR = (1<<portnumber);  //1 is output 0 is input
+	if(direction) *DDR |= (1<<portnumber);  //1 is output 0 is input
 }
 
 void PORTPin::digitalWrite(bool flag)  // sets the output value on pin to hi if flag is true
