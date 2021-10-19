@@ -44,8 +44,7 @@ void PORTPin::digitalWrite(bool flag)  // sets the output value on pin to hi if 
 	}
 }
 
-bool PORTPin::digitalRead()  //  gets the immediate status of Button n....true for being pressed
-{
+bool PORTPin::digitalRead()  //  gets the immediate status of pin
 	if (0 == (*PIN & (1<<portnumber)))
 	{
 		return false;
