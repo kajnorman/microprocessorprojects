@@ -11,7 +11,7 @@
 
 int main(void)
 {
-	Button startbutton = Button(D,7,0);  //sets PORTD.7 to be an input (last argument 1 for out 0 for in)
+	Button startbutton = Button(D,5,0);  //sets PORTD.7 to be an input (last argument 1 for out 0 for in)
 	PORTPin statusled = PORTPin(D,6,1);  //sets PORTD.6 to be an output (last argument 1 for out 0 for in)
 	startbutton.digitalWrite(1); //writing 1 to an input allows setting the pullup
 	
