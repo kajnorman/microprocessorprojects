@@ -40,7 +40,7 @@ void PORTPin::digitalWrite(bool flag)  // sets the output value on pin to hi if 
 		*PORT |= (1<<portnumber); // PORTB.n set high
 	}else
 	{
-		*PORT &= ~(1<<portnumber); // PORTB.n set high
+		*PORT &= ~(1<<portnumber); // PORTB.n set low
 	}
 }
 
