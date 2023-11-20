@@ -1,8 +1,8 @@
 from VendorIO import Nickelreturn,Itemreturn,Trigger_Pin
 from machine import Pin
 
-n=Pin(16,Pin.PULL_DOWN)
-d=Pin(17,Pin.PULL_DOWN)
+n=Pin(16,Pin.IN,Pin.PULL_DOWN)
+d=Pin(17,Pin.IN,Pin.PULL_DOWN)
 
 nt = Trigger_Pin(n)
 dt = Trigger_Pin(d)
