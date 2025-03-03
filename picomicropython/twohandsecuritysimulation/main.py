@@ -41,3 +41,6 @@ while True:
         standsemaskine.Activate(1)
     if time.time() > deadline:
         standsemaskine.Activate(0)
+
+def getDistance():
+    return 120 - y
