@@ -10,6 +10,7 @@ standsemaskine.B2() -- er den anden knap i tohåndsstyringen
 standsemaskine.Endestop()  -- er aktiv når stemplet er i top 
 standsemaskine.Activate(1) --  vil aktivere maskinen
 standsemaskine.Activate(0) --  vil deaktivere maskinen
+getDistance() --     vil returnere afstand mellem bund og stempel. En værdi mellem 0 og 120
 '''
 
 #test1
