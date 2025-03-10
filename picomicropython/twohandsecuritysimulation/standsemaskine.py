@@ -101,7 +101,25 @@ def run():
                  b1 = False
                  b2 = False
 
-     clock.tick(60)  # 120 fps  ??
+         if event.type == pygame.KEYDOWN:
+             if event.mod & pygame.KMOD_LSHIFT:
+                     b1=True
+             if event.mod & pygame.KMOD_RSHIFT:
+                     b2=True
+             if event.mod == (pygame.KMOD_RSHIFT | pygame.KMOD_LSHIFT):
+                 b1 = True
+                 b2 = True
+         if event.type == pygame.KEYUP:
+             if (event.mod ==pygame.KMOD_LSHIFT):
+                     b1 = False
+             if (event.mod  == pygame.KMOD_RSHIFT):
+                     b2 = False
+             if event.mod == 0:
+                 b1 = False
+                 b2 = False
+
+
+     clock.tick(60)  # 60 fps 
 
 
 def Activate(act):
